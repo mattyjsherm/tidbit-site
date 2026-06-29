@@ -101,33 +101,58 @@
   .feature h3 { font-size: 18px; margin-bottom: 8px; font-weight: 600; }
   .feature p { font-size: 14.5px; color: var(--muted); }
 
-  /* ---- interactive demo ---- */
-  .demo-stage { display: flex; flex-direction: column; align-items: center; gap: 24px; }
-  .democard {
-    position: relative; width: min(470px, 92vw); min-height: 196px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 42px 32px; border-radius: 18px; text-align: center;
-    transition: background .5s, color .5s, box-shadow .5s, transform .5s;
-    --on: #fff;
-  }
-  .democard .mark { position: absolute; top: 14px; left: 15px; width: 22px; height: 22px; color: var(--on); opacity: .9; }
-  .democard .dtopic { position: absolute; bottom: 14px; right: 15px; width: 18px; height: 18px; color: var(--on); opacity: .55; }
-  .democard .dq { font-size: 23px; line-height: 1.32; transition: opacity .35s; }
-  .democard .da { margin-top: 12px; font-size: 13px; opacity: .85; transition: opacity .35s; }
-  .s-tape { background: #63B33B; color: #161616; --on:#161616; font-family: 'Permanent Marker', cursive; transform: rotate(-1.5deg); }
-  .s-min { background: #fff; color: #1a1a1a; --on:#1a1a1a; border: 1px solid var(--line); box-shadow: 0 18px 44px rgba(0,0,0,.10); }
+  /* ---- interactive "try it" phone ---- */
+  .sim-stage { display: flex; justify-content: center; }
+  .scr { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .35s ease, transform .45s ease; }
+  .scr.active { opacity: 1; pointer-events: auto; }
+  .scr-lock { cursor: pointer; transform: translateY(0); }
+  .scr-lock.leaving { transform: translateY(-104%); }
+  .scr-home { background: linear-gradient(165deg, #2b3140 0%, #11131a 100%); }
+  .scr-app { background: var(--bg); color: var(--ink); overflow-y: auto; }
+  .scr .clk { position: absolute; top: 30px; width: 100%; text-align: center; color: #fff; }
+  .scr .clk .t { font-size: 46px; font-weight: 600; letter-spacing: 1px; }
+  .scr .clk .d { font-size: 12px; opacity: .9; }
+  .hint { position: absolute; bottom: 14px; width: 100%; text-align: center; color: rgba(255,255,255,.8); font-size: 11px; }
+
+  .simcard { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-radius: 14px; transition: background .4s, color .4s, transform .4s; --on: #fff; }
+  .simcard .mark { position: absolute; top: 9px; left: 10px; width: 15px; height: 15px; color: var(--on); opacity: .9; }
+  .simcard .dtopic { position: absolute; bottom: 9px; right: 10px; width: 12px; height: 12px; color: var(--on); opacity: .55; }
+  .simcard .dq { line-height: 1.3; }
+  .simcard .da { font-size: 10px; margin-top: 6px; opacity: .85; }
+  .scr-lock .simcard { position: absolute; left: 16px; right: 16px; bottom: 54px; padding: 26px 16px 22px; box-shadow: 0 12px 24px rgba(0,0,0,.3); }
+  .scr-lock .simcard .dq { font-size: 15px; }
+
+  .scr-home .stat { position: absolute; top: 12px; right: 16px; color: #fff; font-size: 12px; font-weight: 600; }
+  .scr-home .homewidget { position: absolute; left: 16px; right: 16px; top: 60px; padding: 18px 14px; box-shadow: 0 10px 22px rgba(0,0,0,.32); }
+  .scr-home .homewidget .dq { font-size: 13px; }
+  .dock { position: absolute; bottom: 38px; left: 0; right: 0; display: flex; justify-content: center; gap: 15px; }
+  .appicon { width: 46px; height: 46px; border-radius: 12px; border: 0; display: flex; align-items: center; justify-content: center; }
+  .appicon.tidbit { background: #F4F1EA; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
+  .appicon.tidbit svg { width: 28px; height: 28px; color: #1A1714; }
+  .appicon.a1 { background: #4FA3E3; } .appicon.a2 { background: #F06AA0; } .appicon.a3 { background: #F2933C; }
+
+  .appbar { display: flex; align-items: center; gap: 7px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; padding: 16px 16px 6px; }
+  .appbar .logo { width: 20px; height: 20px; color: var(--accent); }
+  .appwrap { padding: 6px 16px 18px; }
+  .scr-app .simcard { padding: 22px 16px; margin-bottom: 16px; }
+  .scr-app .simcard .dq { font-size: 15px; }
+  .clbl { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 2px 0 8px; }
+  .app-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .app-chips button { font-family: inherit; font-size: 11.5px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--muted); cursor: pointer; }
+  .app-chips button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .app-actions { display: flex; gap: 8px; }
+  .app-actions button { flex: 1; font-family: inherit; font-size: 12.5px; padding: 11px; border-radius: 10px; cursor: pointer; }
+  .app-actions .ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .app-actions .primary { background: var(--accent); color: var(--bg); border: 1px solid var(--accent); }
+
+  /* shared card styles */
+  .s-tape { background: #63B33B; color: #161616; --on:#161616; font-family: 'Permanent Marker', cursive; transform: rotate(-1.2deg); }
+  .s-min { background: #fff; color: #1a1a1a; --on:#1a1a1a; border: 1px solid #e6e0d4; }
   .s-min .dq { font-weight: 600; }
-  .s-digital { background: #0E1116; color: #39E0C8; --on:#39E0C8; font-family: ui-monospace, 'Courier New', monospace; text-transform: uppercase; letter-spacing: 1px; }
-  .s-digital .dq { font-size: 20px; }
+  .s-digital { background: #0E1116; color: #39E0C8; --on:#39E0C8; font-family: ui-monospace, 'Courier New', monospace; text-transform: uppercase; letter-spacing: .5px; }
   .s-elegant { background: #FBF7EF; color: #2b2b2b; --on:#2b2b2b; font-family: 'Fraunces', serif; box-shadow: inset 0 0 0 1px #C2A35A; }
-  .s-postit { background: #F7E06B; color: #3a3320; --on:#3a3320; font-family: 'Permanent Marker', cursive; transform: rotate(1.2deg); }
-  .s-neon { background: #0B0B12; color: #ff5db1; --on:#ff5db1; font-weight: 600; text-shadow: 0 0 11px rgba(255,93,177,.7); }
-  .style-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-  .style-chips button {
-    font-family: inherit; font-size: 13px; padding: 8px 15px; border-radius: 999px; cursor: pointer;
-    border: 1px solid var(--line); background: #fff; color: var(--muted); transition: all .2s;
-  }
-  .style-chips button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .s-postit { background: #F7E06B; color: #3a3320; --on:#3a3320; font-family: 'Permanent Marker', cursive; transform: rotate(1deg); }
+  .s-neon { background: #0B0B12; color: #ff5db1; --on:#ff5db1; font-weight: 600; text-shadow: 0 0 10px rgba(255,93,177,.7); }
 
   /* ---- count band ---- */
   .band { text-align: center; }
@@ -229,15 +254,52 @@
 
 <section>
   <div class="wrap">
-    <div class="section-head"><h2>One feeling, many looks</h2><p>Real lines from the app, shown in a few of its styles. Tap a style to switch — or just watch.</p></div>
-    <div class="demo-stage">
-      <div class="democard s-min" id="democard">
-        <svg class="mark"><use href="#tlogo"/></svg>
-        <div class="dq" id="dq">You are not the rough draft. You are the final word.</div>
-        <div class="da" id="da"></div>
-        <svg class="dtopic"><use id="dtopicuse" href="#ic-star"/></svg>
-      </div>
-      <div class="style-chips" id="stylechips"></div>
+    <div class="section-head"><h2>Try it yourself</h2><p>Unlock the phone, open Tidbit, pick a look, and set your lock screen — right here, no install.</p></div>
+    <div class="sim-stage">
+      <div class="phone"><div class="screen">
+
+        <div class="scr scr-lock active" id="scrLock">
+          <div class="clk"><div class="t">9:41</div><div class="d">Monday, June 29</div></div>
+          <div class="simcard s-min" id="lockCard">
+            <svg class="mark"><use href="#tlogo"/></svg>
+            <div class="dq"></div><div class="da"></div>
+            <svg class="dtopic"><use href="#ic-star"/></svg>
+          </div>
+          <div class="hint">tap to unlock ↑</div>
+        </div>
+
+        <div class="scr scr-home" id="scrHome">
+          <div class="stat">9:41</div>
+          <div class="simcard homewidget s-min" id="homeWidget">
+            <svg class="mark"><use href="#tlogo"/></svg>
+            <div class="dq"></div><div class="da"></div>
+            <svg class="dtopic"><use href="#ic-star"/></svg>
+          </div>
+          <div class="dock">
+            <button class="appicon tidbit" id="openApp" aria-label="Open Tidbit"><svg><use href="#tlogo"/></svg></button>
+            <span class="appicon a1"></span><span class="appicon a2"></span><span class="appicon a3"></span>
+          </div>
+          <div class="hint">tap Tidbit to customise</div>
+        </div>
+
+        <div class="scr scr-app" id="scrApp">
+          <div class="appbar"><svg class="logo"><use href="#tlogo"/></svg> Tidbit</div>
+          <div class="appwrap">
+            <div class="simcard s-min" id="appPreview">
+              <svg class="mark"><use href="#tlogo"/></svg>
+              <div class="dq"></div><div class="da"></div>
+              <svg class="dtopic"><use href="#ic-star"/></svg>
+            </div>
+            <div class="clbl">Style</div>
+            <div class="app-chips" id="appChips"></div>
+            <div class="app-actions">
+              <button class="ghost" id="shuffleBtn">Shuffle line</button>
+              <button class="primary" id="applyBtn">Set lock screen</button>
+            </div>
+          </div>
+        </div>
+
+      </div></div>
     </div>
   </div>
 </section>
@@ -294,32 +356,48 @@
     {k:'s-tape', label:'Tape'}, {k:'s-min', label:'Minimal'}, {k:'s-digital', label:'Digital'},
     {k:'s-elegant', label:'Elegant'}, {k:'s-postit', label:'Post-it'}, {k:'s-neon', label:'Neon'}
   ];
-  var card = document.getElementById('democard'),
-      dq = document.getElementById('dq'), da = document.getElementById('da'),
-      dtopic = document.getElementById('dtopicuse'), chips = document.getElementById('stylechips');
-  var ci = 2, si = 1, userLock = 0;
+  var byId = function (i) { return document.getElementById(i); };
+  var scr = { lock: byId('scrLock'), home: byId('scrHome'), app: byId('scrApp') };
+  var cards = [byId('lockCard'), byId('homeWidget'), byId('appPreview')];
+  var chips = byId('appChips');
+  var cs = 1, cl = 2, state = 'lock';
+
+  function paint(card) {
+    card.className = 'simcard' + (card.id === 'homeWidget' ? ' homewidget' : '') + ' ' + styles[cs].k;
+    var it = content[cl];
+    card.querySelector('.dq').textContent = it.t;
+    var da = card.querySelector('.da');
+    da.textContent = it.a ? '— ' + it.a : '';
+    da.style.display = it.a ? '' : 'none';
+    card.querySelector('.dtopic use').setAttribute('href', it.a ? '#ic-quote' : '#ic-star');
+  }
+  function render() { cards.forEach(paint); }
 
   styles.forEach(function (s, i) {
     var b = document.createElement('button');
     b.textContent = s.label;
-    b.addEventListener('click', function () { si = i; userLock = Date.now(); applyStyle(); setActive(); });
+    b.addEventListener('click', function () { cs = i; render(); mark(); });
     chips.appendChild(b);
   });
-  function setActive() { for (var i = 0; i < chips.children.length; i++) chips.children[i].className = (i === si ? 'active' : ''); }
-  function applyStyle() { card.className = 'democard ' + styles[si].k; }
-  function showContent() {
-    dq.style.opacity = 0; da.style.opacity = 0;
-    setTimeout(function () {
-      var item = content[ci];
-      dq.textContent = item.t;
-      if (item.a) { da.textContent = '— ' + item.a; dtopic.setAttribute('href', '#ic-quote'); }
-      else { da.textContent = ''; dtopic.setAttribute('href', '#ic-star'); }
-      dq.style.opacity = 1; da.style.opacity = item.a ? 1 : 0;
-    }, 340);
+  function mark() { for (var i = 0; i < chips.children.length; i++) chips.children[i].className = (i === cs ? 'active' : ''); }
+
+  function setScreen(name) {
+    ['lock', 'home', 'app'].forEach(function (s) {
+      var el = scr[s];
+      if (s === name) { el.classList.add('active'); el.classList.remove('leaving'); }
+      else { el.classList.remove('active'); if (s === 'lock' && name !== 'lock') el.classList.add('leaving'); else el.classList.remove('leaving'); }
+    });
+    state = name;
   }
-  applyStyle(); setActive(); showContent();
-  setInterval(function () { ci = (ci + 1) % content.length; showContent(); }, 4000);
-  setInterval(function () { if (Date.now() - userLock > 9000) { si = (si + 1) % styles.length; applyStyle(); setActive(); } }, 5200);
+
+  scr.lock.addEventListener('click', function () { setScreen('home'); });
+  byId('openApp').addEventListener('click', function (e) { e.stopPropagation(); setScreen('app'); mark(); });
+  byId('homeWidget').addEventListener('click', function (e) { e.stopPropagation(); setScreen('app'); mark(); });
+  byId('shuffleBtn').addEventListener('click', function () { cl = (cl + 1) % content.length; render(); });
+  byId('applyBtn').addEventListener('click', function () { render(); setScreen('lock'); });
+
+  render(); mark();
+  setInterval(function () { if (state === 'lock') { cl = (cl + 1) % content.length; paint(cards[0]); paint(cards[1]); } }, 4500);
 })();
 </script>
 
