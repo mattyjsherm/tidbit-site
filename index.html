@@ -144,6 +144,14 @@
   .app-actions button { flex: 1; font-family: inherit; font-size: 12.5px; padding: 11px; border-radius: 10px; cursor: pointer; }
   .app-actions .ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
   .app-actions .primary { background: var(--accent); color: var(--bg); border: 1px solid var(--accent); }
+  .app-actions .alt { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
+  .linkbtn { display: block; margin: 0 auto 12px; background: none; border: 0; color: var(--muted); font-family: inherit; font-size: 12px; cursor: pointer; }
+  .widgetempty { position: absolute; left: 16px; right: 16px; top: 60px; padding: 26px 12px; border: 1.5px dashed rgba(255,255,255,.4); border-radius: 14px; background: rgba(255,255,255,.06); color: rgba(255,255,255,.82); font-family: inherit; font-size: 12px; cursor: pointer; }
+  /* subtle easter-egg unlock cue */
+  .scr-lock::after { content: '⌃'; position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: rgba(255,255,255,.55); font-size: 18px; pointer-events: none; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); opacity: .4; } 50% { transform: translateY(-3px); opacity: .85; } }
+  .toast { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) translateY(8px); background: rgba(20,20,20,.92); color: #fff; font-size: 11px; padding: 7px 13px; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 6; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* shared card styles */
   .s-tape { background: #63B33B; color: #161616; --on:#161616; font-family: 'Permanent Marker', cursive; transform: rotate(-1.2deg); }
@@ -215,13 +223,50 @@
     </div>
     <div class="phone-stage">
       <div class="phone"><div class="screen">
-        <div class="clock"><div class="time">9:41</div><div class="date">Monday, June 29</div></div>
-        <div class="lockcard">
-          <svg class="mark"><use href="#tlogo"/></svg>
-          <div class="q">The privilege of a lifetime is to become who you truly are.</div>
-          <div class="a">— Carl Jung</div>
-          <svg class="topic"><use href="#ic-quote"/></svg>
+
+        <div class="scr scr-lock active" id="scrLock">
+          <div class="clk"><div class="t">9:41</div><div class="d">Monday, June 29</div></div>
+          <div class="simcard s-elegant" id="lockCard">
+            <svg class="mark"><use href="#tlogo"/></svg>
+            <div class="dq"></div><div class="da"></div>
+            <svg class="dtopic"><use href="#ic-quote"/></svg>
+          </div>
         </div>
+
+        <div class="scr scr-home" id="scrHome">
+          <div class="stat">9:41</div>
+          <div class="simcard homewidget s-elegant" id="homeWidget" hidden>
+            <svg class="mark"><use href="#tlogo"/></svg>
+            <div class="dq"></div><div class="da"></div>
+            <svg class="dtopic"><use href="#ic-quote"/></svg>
+          </div>
+          <button class="widgetempty" id="widgetEmpty">＋ Add a Tidbit widget</button>
+          <div class="dock">
+            <button class="appicon tidbit" id="openApp" aria-label="Open Tidbit"><svg><use href="#tlogo"/></svg></button>
+            <span class="appicon a1"></span><span class="appicon a2"></span><span class="appicon a3"></span>
+          </div>
+          <div class="hint">tap Tidbit to customise</div>
+        </div>
+
+        <div class="scr scr-app" id="scrApp">
+          <div class="appbar"><svg class="logo"><use href="#tlogo"/></svg> Tidbit</div>
+          <div class="appwrap">
+            <div class="simcard s-elegant" id="appPreview">
+              <svg class="mark"><use href="#tlogo"/></svg>
+              <div class="dq"></div><div class="da"></div>
+              <svg class="dtopic"><use href="#ic-quote"/></svg>
+            </div>
+            <div class="clbl">Style</div>
+            <div class="app-chips" id="appChips"></div>
+            <button class="linkbtn" id="shuffleBtn">⟳ Shuffle line</button>
+            <div class="app-actions">
+              <button class="primary" id="addLock">Add to lock</button>
+              <button class="primary alt" id="addWidget">Add widget</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
       </div></div>
     </div>
   </header>
@@ -248,58 +293,6 @@
       <div><div class="big">2,800+</div><div class="lbl">affirmations &amp; quotes</div></div>
       <div><div class="big">12</div><div class="lbl">card styles</div></div>
       <div><div class="big">11</div><div class="lbl">topics &amp; 8 voices</div></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="section-head"><h2>Try it yourself</h2><p>Unlock the phone, open Tidbit, pick a look, and set your lock screen — right here, no install.</p></div>
-    <div class="sim-stage">
-      <div class="phone"><div class="screen">
-
-        <div class="scr scr-lock active" id="scrLock">
-          <div class="clk"><div class="t">9:41</div><div class="d">Monday, June 29</div></div>
-          <div class="simcard s-min" id="lockCard">
-            <svg class="mark"><use href="#tlogo"/></svg>
-            <div class="dq"></div><div class="da"></div>
-            <svg class="dtopic"><use href="#ic-star"/></svg>
-          </div>
-          <div class="hint">tap to unlock ↑</div>
-        </div>
-
-        <div class="scr scr-home" id="scrHome">
-          <div class="stat">9:41</div>
-          <div class="simcard homewidget s-min" id="homeWidget">
-            <svg class="mark"><use href="#tlogo"/></svg>
-            <div class="dq"></div><div class="da"></div>
-            <svg class="dtopic"><use href="#ic-star"/></svg>
-          </div>
-          <div class="dock">
-            <button class="appicon tidbit" id="openApp" aria-label="Open Tidbit"><svg><use href="#tlogo"/></svg></button>
-            <span class="appicon a1"></span><span class="appicon a2"></span><span class="appicon a3"></span>
-          </div>
-          <div class="hint">tap Tidbit to customise</div>
-        </div>
-
-        <div class="scr scr-app" id="scrApp">
-          <div class="appbar"><svg class="logo"><use href="#tlogo"/></svg> Tidbit</div>
-          <div class="appwrap">
-            <div class="simcard s-min" id="appPreview">
-              <svg class="mark"><use href="#tlogo"/></svg>
-              <div class="dq"></div><div class="da"></div>
-              <svg class="dtopic"><use href="#ic-star"/></svg>
-            </div>
-            <div class="clbl">Style</div>
-            <div class="app-chips" id="appChips"></div>
-            <div class="app-actions">
-              <button class="ghost" id="shuffleBtn">Shuffle line</button>
-              <button class="primary" id="applyBtn">Set lock screen</button>
-            </div>
-          </div>
-        </div>
-
-      </div></div>
     </div>
   </div>
 </section>
@@ -358,30 +351,40 @@
   ];
   var byId = function (i) { return document.getElementById(i); };
   var scr = { lock: byId('scrLock'), home: byId('scrHome'), app: byId('scrApp') };
-  var cards = [byId('lockCard'), byId('homeWidget'), byId('appPreview')];
-  var chips = byId('appChips');
-  var cs = 1, cl = 2, state = 'lock';
+  var lockCard = byId('lockCard'), homeWidget = byId('homeWidget'), widgetEmpty = byId('widgetEmpty'),
+      appPreview = byId('appPreview'), chips = byId('appChips'), toastEl = byId('toast');
 
-  function paint(card) {
-    card.className = 'simcard' + (card.id === 'homeWidget' ? ' homewidget' : '') + ' ' + styles[cs].k;
-    var it = content[cl];
+  var cs = 3, cl = 1;            // app working selection: elegant, Carl Jung
+  var lock = { s: 3, l: 1 };     // design shown on the lock screen
+  var widget = null;            // design shown on the home widget (null = not added yet)
+  var state = 'lock', engaged = false;
+
+  function paint(card, s, l) {
+    card.className = 'simcard' + (card.id === 'homeWidget' ? ' homewidget' : '') + ' ' + styles[s].k;
+    var it = content[l];
     card.querySelector('.dq').textContent = it.t;
     var da = card.querySelector('.da');
     da.textContent = it.a ? '— ' + it.a : '';
     da.style.display = it.a ? '' : 'none';
     card.querySelector('.dtopic use').setAttribute('href', it.a ? '#ic-quote' : '#ic-star');
   }
-  function render() { cards.forEach(paint); }
+  function renderLock() { paint(lockCard, lock.s, lock.l); }
+  function renderWidget() {
+    if (widget) { homeWidget.hidden = false; widgetEmpty.style.display = 'none'; paint(homeWidget, widget.s, widget.l); }
+    else { homeWidget.hidden = true; widgetEmpty.style.display = ''; }
+  }
+  function renderApp() { paint(appPreview, cs, cl); mark(); }
 
   styles.forEach(function (s, i) {
     var b = document.createElement('button');
     b.textContent = s.label;
-    b.addEventListener('click', function () { cs = i; render(); mark(); });
+    b.addEventListener('click', function () { cs = i; renderApp(); });
     chips.appendChild(b);
   });
   function mark() { for (var i = 0; i < chips.children.length; i++) chips.children[i].className = (i === cs ? 'active' : ''); }
 
   function setScreen(name) {
+    engaged = true;
     ['lock', 'home', 'app'].forEach(function (s) {
       var el = scr[s];
       if (s === name) { el.classList.add('active'); el.classList.remove('leaving'); }
@@ -389,15 +392,18 @@
     });
     state = name;
   }
+  var toastT;
+  function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 1600); }
 
   scr.lock.addEventListener('click', function () { setScreen('home'); });
-  byId('openApp').addEventListener('click', function (e) { e.stopPropagation(); setScreen('app'); mark(); });
-  byId('homeWidget').addEventListener('click', function (e) { e.stopPropagation(); setScreen('app'); mark(); });
-  byId('shuffleBtn').addEventListener('click', function () { cl = (cl + 1) % content.length; render(); });
-  byId('applyBtn').addEventListener('click', function () { render(); setScreen('lock'); });
+  byId('openApp').addEventListener('click', function (e) { e.stopPropagation(); renderApp(); setScreen('app'); });
+  widgetEmpty.addEventListener('click', function (e) { e.stopPropagation(); renderApp(); setScreen('app'); });
+  byId('shuffleBtn').addEventListener('click', function () { cl = (cl + 1) % content.length; renderApp(); });
+  byId('addLock').addEventListener('click', function () { lock = { s: cs, l: cl }; renderLock(); toast('✓ Added to lock screen'); setScreen('lock'); });
+  byId('addWidget').addEventListener('click', function () { widget = { s: cs, l: cl }; renderWidget(); toast('✓ Widget added'); setScreen('home'); });
 
-  render(); mark();
-  setInterval(function () { if (state === 'lock') { cl = (cl + 1) % content.length; paint(cards[0]); paint(cards[1]); } }, 4500);
+  renderLock(); renderWidget(); renderApp();
+  setInterval(function () { if (!engaged && state === 'lock') { lock.l = (lock.l + 1) % content.length; renderLock(); } }, 5500);
 })();
 </script>
 
