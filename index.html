@@ -175,6 +175,10 @@
 
   footer { padding: 40px 0 56px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; text-align: center; }
   footer a { font-weight: 600; }
+  .footnote { font-size: 11px; color: #9a958c; margin: 0 auto 14px; max-width: 42em; line-height: 1.5; }
+  .footnote a { color: inherit; text-decoration: underline; }
+  sup a { color: var(--muted); text-decoration: none; padding: 0 1px; }
+  .band-note { margin-top: 22px; color: var(--muted); font-size: 14px; }
 
   @media (max-width: 820px) {
     .hero { grid-template-columns: 1fr; gap: 36px; }
@@ -276,7 +280,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>Wisdom where you'll actually see it</h2>
-      <p>You check your phone a hundred times a day. Tidbit makes a few of those moments count.</p>
+      <p>You check your phone around 186 times a day<sup><a href="#fn1" id="fnref1" aria-label="see footnote">1</a></sup>. Tidbit makes a few of those moments count.</p>
     </div>
     <div class="features">
       <div class="feature"><div class="ic"><svg><use href="#ic-lock"/></svg></div><h3>On your lock screen</h3><p>Your lock wallpaper and a matching home widget — with a new line daily, a few times a day, or every hour. Your call.</p></div>
@@ -294,6 +298,7 @@
       <div><div class="big">12</div><div class="lbl">card styles</div></div>
       <div><div class="big">11</div><div class="lbl">topics &amp; 8 voices</div></div>
     </div>
+    <p class="band-note">A living library — new affirmations, quotes, styles, and voices added regularly.</p>
   </div>
 </section>
 
@@ -311,6 +316,7 @@
 <footer>
   <div class="wrap">
     <div class="brand" style="justify-content:center; font-size:18px; margin-bottom:10px;"><svg style="color:var(--accent); width:22px; height:22px"><use href="#tlogo"/></svg> Tidbit</div>
+    <p class="footnote" id="fn1">1. Source: Reviews.org, survey of ~1,000 U.S. adults — <a href="https://www.reviews.org/mobile/cell-phone-addiction/" target="_blank" rel="noopener">Americans check their phones about 186 times a day</a>.</p>
     © 2026 Tidbit · A little something each day · Android first, iOS to follow
   </div>
 </footer>
